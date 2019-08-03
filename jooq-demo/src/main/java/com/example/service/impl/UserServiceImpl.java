@@ -19,9 +19,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     DSLContext dsl;
 
-//    @Autowired
-//    private TUserDao userDao;
-
     com.generator.tables.TUser u =  com.generator.tables.TUser.T_USER.as("u");
 
     @Override
