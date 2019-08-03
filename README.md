@@ -1,2 +1,2 @@
-# spring-cloud-config
-spring cloud config
+# spring-boot-study
+O/R mapping frame JOOQ
