@@ -15,5 +15,5 @@ public interface UserService {
 
     TUser getUserById(Integer id);
 
-    List<TUser> findUser(HashMap<String,Object> map);
+    List<TUser> findUser(HashMap<String, Object> map, int pageNum, int pageSize);
 }

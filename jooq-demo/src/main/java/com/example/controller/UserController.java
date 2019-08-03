@@ -38,11 +38,10 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET,value = "/findUser")
-    public List<TUser> findUser(int pageNum, int pageSize){
+    public List<TUser> findUser(int pageNum, int pageSize, String username){
         HashMap<String, Object> map = new HashMap<>();
-        map.put("pageNum",pageNum);
-        map.put("pageSize",pageSize);
-        return userService.findUser(map);
+        map.put("user_name",username);
+        return userService.findUser(map,pageNum, pageSize);
     }
 
 }

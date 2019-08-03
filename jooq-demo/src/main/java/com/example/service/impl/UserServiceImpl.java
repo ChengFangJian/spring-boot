@@ -4,15 +4,14 @@ import com.example.service.UserService;
 import com.generator.tables.pojos.TUser;
 import com.generator.tables.records.TUserRecord;
 import org.jooq.DSLContext;
-import org.jooq.Record;
-import org.jooq.Result;
 import org.jooq.UpdateQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -60,11 +59,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<TUser> findUser(HashMap<String, Object> map) {
+    public List<TUser> findUser(HashMap<String, Object> params, int pageNum, int pageSize) {
+        StringBuilder builder = new StringBuilder();
+        List<Object> objectList = new ArrayList<>();
+        if (params != null) {
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                objectList.add(entry.getValue());
+                if (builder.length() == 0) {
+                    builder.append(entry.getKey()).append(" = ?");
+                } else {
+                    builder.append(" and ").append(entry.getKey()).append(" = ?");
+                }
+            }
+        }
+
         List<TUser> result = dsl.select().from(u)
+                .where(builder.toString(), objectList.toArray())
                 .orderBy(u.ID.desc())
-                .limit((Integer) map.get("pageSize"))
-                .offset((Integer) map.get("pageNum"))
+                .limit(pageSize)
+                .offset(pageNum)
                 .fetch()
                 .into(TUser.class);
 
